@@ -9,7 +9,7 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  region = "us-east-2"
+  region = "us-west-2"
 }
 
 # Create a VPC
@@ -24,7 +24,7 @@ resource "aws_vpc" "my-vpc" {
 resource "aws_subnet" "web-subnet-1" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-east-2a"
+  availability_zone       = "us-west-2a"
   map_public_ip_on_launch = true
 
   tags = {
@@ -35,7 +35,7 @@ resource "aws_subnet" "web-subnet-1" {
 resource "aws_subnet" "web-subnet-2" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.2.0/24"
-  availability_zone       = "us-east-2b"
+  availability_zone       = "us-west-2b"
   map_public_ip_on_launch = true
  tags = {
     Name = "Web-lb"
@@ -48,7 +48,7 @@ resource "aws_subnet" "web-subnet-2" {
 resource "aws_subnet" "application-subnet-1" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.11.0/24"
-  availability_zone       = "us-east-2a"
+  availability_zone       = "us-west-2a"
   map_public_ip_on_launch = false
 
   tags = {
@@ -59,7 +59,7 @@ resource "aws_subnet" "application-subnet-1" {
 resource "aws_subnet" "application-subnet-2" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.12.0/24"
-  availability_zone       = "us-east-2b"
+  availability_zone       = "us-west-2b"
 
   tags = {
     Name = "Application-lb"
@@ -70,7 +70,7 @@ resource "aws_subnet" "application-subnet-2" {
 resource "aws_subnet" "database-subnet-1" {
   vpc_id            = aws_vpc.my-vpc.id
   cidr_block        = "10.0.21.0/24"
-  availability_zone = "us-east-2a"
+  availability_zone = "us-west-2a"
 
   tags = {
     Name = "Database-1a"
@@ -80,7 +80,7 @@ resource "aws_subnet" "database-subnet-1" {
 resource "aws_subnet" "database-subnet-2" {
   vpc_id            = aws_vpc.my-vpc.id
   cidr_block        = "10.0.22.0/24"
-  availability_zone = "us-east-2b"
+  availability_zone = "us-west-2b"
 
   tags = {
     Name = "Database-lb"
@@ -90,7 +90,7 @@ resource "aws_subnet" "database-subnet-2" {
 resource "aws_subnet" "database-subnet" {
   vpc_id            = aws_vpc.my-vpc.id
   cidr_block        = "10.0.3.0/24"
-  availability_zone = "us-east-2a"
+  availability_zone = "us-west-2a"
 
   tags = {
     Name = "Database"
@@ -137,7 +137,7 @@ resource "aws_route_table_association" "b" {
 resource "aws_instance" "webserver1" {
   ami                    = "ami-0c80e2b6ccb9ad6d1"
   instance_type          = "t2.micro"
-  availability_zone      = "us-east-2a"
+  availability_zone      = "us-west-2a"
   key_name               = "terraform"
   vpc_security_group_ids = [aws_security_group.webserver-sg.id]
   subnet_id              = aws_subnet.web-subnet-1.id
@@ -151,7 +151,7 @@ resource "aws_instance" "webserver1" {
 resource "aws_instance" "webserver2" {
   ami                    = "ami-0c80e2b6ccb9ad6d1"
   instance_type          = "t2.micro"
-  availability_zone      = "us-east-2b"
+  availability_zone      = "us-west-2b"
   key_name               = "terraform"
   vpc_security_group_ids = [aws_security_group.webserver-sg.id]
   subnet_id              = aws_subnet.web-subnet-2.id
@@ -166,7 +166,7 @@ resource "aws_instance" "webserver2" {
 resource "aws_instance" "appserver1" {
   ami                    = "ami-0c80e2b6ccb9ad6d1"
   instance_type          = "t2.micro"
-  availability_zone      = "us-east-2a"
+  availability_zone      = "us-west-2a"
   key_name               = "terraform"
   vpc_security_group_ids = [aws_security_group.appserver-sg.id]
   subnet_id              = aws_subnet.application-subnet-1.id
@@ -178,7 +178,7 @@ resource "aws_instance" "appserver1" {
 resource "aws_instance" "appserver2" {
   ami                    = "ami-0c80e2b6ccb9ad6d1"
   instance_type          = "t2.micro"
-  availability_zone      = "us-east-2b"
+  availability_zone      = "us-west-2b"
   key_name               = "terraform"
   vpc_security_group_ids = [aws_security_group.appserver-sg.id]
   subnet_id              = aws_subnet.application-subnet-2.id
