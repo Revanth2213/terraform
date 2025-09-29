@@ -113,7 +113,7 @@ resource "aws_route_table" "web-rt" {
 
 
   route {
-    cidr_block = "172.16.0.0/0", "172.16.1.0", "172.16.2.0"
+    cidr_block = "172.16.0.0/0" "172.16.1.0" "172.16.2.0"
     gateway_id = aws_internet_gateway.igw.id
   }
 
