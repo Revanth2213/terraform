@@ -20,7 +20,7 @@ resource "aws_vpc" "my-vpc" {
   }
 }
 
-# Create Web Public Subnet
+/* Create Web Public Subnet
 resource "aws_subnet" "web-subnet-1" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.1.0/24"
@@ -30,9 +30,9 @@ resource "aws_subnet" "web-subnet-1" {
   tags = {
     Name = "Web-1a"
   }
-}
+}*/
 
-resource "aws_subnet" "web-subnet-2" {
+/*resource "aws_subnet" "web-subnet-2" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.2.0/24"
   availability_zone       = "us-west-2b"
@@ -41,10 +41,10 @@ resource "aws_subnet" "web-subnet-2" {
     Name = "Web-lb"
   }
 }
+*/
 
 
-
-# Create Application Private Subnet
+/* Create Application Private Subnet
 resource "aws_subnet" "application-subnet-1" {
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = "10.0.11.0/24"
@@ -54,30 +54,30 @@ resource "aws_subnet" "application-subnet-1" {
   tags = {
     Name = "Application-1a"
   }
-}
+}*/
 
 resource "aws_subnet" "application-subnet-2" {
   vpc_id                  = aws_vpc.my-vpc.id
-  cidr_block              = "10.0.12.0/24"
+  cidr_block              = "10.0.1.0/24"
   availability_zone       = "us-west-2b"
 
   tags = {
-    Name = "Application-lb"
+    Name = "App-server-lb"
   }
 }
 
 # Create Database Private Subnet
 resource "aws_subnet" "database-subnet-1" {
   vpc_id            = aws_vpc.my-vpc.id
-  cidr_block        = "10.0.21.0/24"
+  cidr_block        = "10.0.2.0/24"
   availability_zone = "us-west-2a"
 
   tags = {
-    Name = "Database-1a"
+    Name = "Database-private-1a"
   }
 }
 
-resource "aws_subnet" "database-subnet-2" {
+/*resource "aws_subnet" "database-subnet-2" {
   vpc_id            = aws_vpc.my-vpc.id
   cidr_block        = "10.0.22.0/24"
   availability_zone = "us-west-2b"
@@ -85,7 +85,7 @@ resource "aws_subnet" "database-subnet-2" {
   tags = {
     Name = "Database-lb"
   }
-}
+}*/
 
 resource "aws_subnet" "database-subnet" {
   vpc_id            = aws_vpc.my-vpc.id
@@ -113,12 +113,12 @@ resource "aws_route_table" "web-rt" {
 
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = "172.16.0.0/0", "172.16.1.0", "172.16.2.0"
     gateway_id = aws_internet_gateway.igw.id
   }
 
   tags = {
-    Name = "WebRT"
+    Name = "CustomRT"
   }
 }
 
@@ -133,7 +133,7 @@ resource "aws_route_table_association" "b" {
   route_table_id = aws_route_table.web-rt.id
 }
 
-#Create EC2 Instance
+/*#Create EC2 Instance
 resource "aws_instance" "webserver1" {
   ami                    = "ami-0c80e2b6ccb9ad6d1"
   instance_type          = "t2.micro"
@@ -146,9 +146,9 @@ resource "aws_instance" "webserver1" {
   tags = {
     Name = "Web Server-1"
   }
-}
+}*/
 
-resource "aws_instance" "webserver2" {
+/*resource "aws_instance" "webserver2" {
   ami                    = "ami-0c80e2b6ccb9ad6d1"
   instance_type          = "t2.micro"
   availability_zone      = "us-west-2b"
@@ -160,7 +160,7 @@ resource "aws_instance" "webserver2" {
   tags = {
     Name = "Web Server-2"
   }
-}
+}*/
 
 #Create EC2 Instance
 resource "aws_instance" "appserver1" {
@@ -175,7 +175,7 @@ resource "aws_instance" "appserver1" {
   }
 }
 
-resource "aws_instance" "appserver2" {
+/*resource "aws_instance" "appserver2" {
   ami                    = "ami-0c80e2b6ccb9ad6d1"
   instance_type          = "t2.micro"
   availability_zone      = "us-west-2b"
@@ -186,7 +186,7 @@ resource "aws_instance" "appserver2" {
   tags = {
     Name = "app Server-2"
   }
-}
+}*/
 
 resource "aws_db_instance" "default" {
   allocated_storage    = 10
@@ -195,7 +195,7 @@ resource "aws_db_instance" "default" {
   engine_version       = "8.0.35"
   instance_class       = "db.t3.micro"
   username             = "admin"
-  password             = "Raham#123568i"
+  password             = "Revanth#123568i"
   skip_final_snapshot  = true
 }
 
@@ -209,7 +209,7 @@ resource "aws_db_subnet_group" "default" {
 }
 
 
-# Create Web Security Group
+/*# Create Web Security Group
 resource "aws_security_group" "webserver-sg" {
   name        = "webserver-sg"
   description = "Allow HTTP inbound traffic"
@@ -240,8 +240,8 @@ resource "aws_security_group" "webserver-sg" {
  tags = {
     Name = "Web-SG"
   }
-}
-
+}*/
+6
 # Create Application Security Group
 resource "aws_security_group" "appserver-sg" {
   name        = "appserver-SG"
@@ -294,7 +294,7 @@ resource "aws_security_group" "database-sg" {
     from_port   = 32768
     to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.1.0/24"]
   }
 
   tags = {
